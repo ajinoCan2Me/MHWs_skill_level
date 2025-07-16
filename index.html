@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最大会心率計算</title>
+    <style>
+        .form-group {
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            margin-right: 10px;
+        }
+        .form-group input, .form-group select {
+            margin-right: 10px;
+        }
+        .form-group input[readonly] {
+            background-color: #f0f0f0;
+        }
+        .total {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        #skills {
+            margin-top: 20px;
+        }
+        .skill-item {
+            margin-bottom: 15px;
+        }
+        .skill-item label {
+            display: inline-block;
+            width: 120px;
+        }
+        .skill-item .level-value {
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .skill-item .level-value select,
+        .skill-item .level-value input {
+            margin-left: 5px;
+        }
+        hr {
+            margin: 20px 0;
+            border: 0;
+            border-top: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+
+<h1>最大会心率計算</h1>
+<hr>
+<div class="form-group">
+    <label for="weapon">武器の会心率:</label>
+    <input type="text" id="weapon" placeholder="会心率を入力（%）">
+</div>
+<hr>
+
+<div id="skills">
+    <!-- 見切り -->
+    <div class="skill-item">
+        <label for="skill1">見切り</label>
+        <div class="level-value">
+            <select id="level1" onchange="updateValues()">
+                <option value="0">レベル</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <input type="text" id="value1" readonly>
+        </div>
+    </div>
+    <hr>
+
+    <!-- 渾身 -->
+    <div class="skill-item">
+        <label for="skill2">渾身</label>
+        <div class="level-value">
+            <select id="level2" onchange="updateValues()">
+                <option value="0">レベル</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <input type="text" id="value2" readonly>
+        </div>
+    </div>
+    <hr>
+
+    <!-- 無我 -->
+    <div class="skill-item">
+        <label for="skill3">無我</label>
+        <div class="level-value">
+            <select id="level3" onchange="updateValues()">
+                <option value="0">レベル</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <input type="text" id="value3" readonly>
+        </div>
+    </div>
+    <hr>
+
+    <!-- 挑戦者 -->
+    <div class="skill-item">
+        <label for="skill4">挑戦者</label>
+        <div class="level-value">
+            <select id="level4" onchange="updateValues()">
+                <option value="0">レベル</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <input type="text" id="value4" readonly>
+        </div>
+    </div>
+    <hr>
+
+    <!-- 弱点特攻 -->
+    <div class="skill-item">
+        <label for="skill5">弱点特攻</label>
+        <div class="level-value">
+            <select id="level5" onchange="updateValues()">
+                <option value="0">レベル</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+            <input type="text" id="value5" readonly>
+        </div>
+    </div>
+    <hr>
+</div>
+
+<div class="total">
+    <p>合計値: <span id="total">0</span></p>
+</div>
+
+<script>
+    const skillValues = {
+        "見切り": [4, 8, 12, 16, 20],
+        "渾身": [10, 20, 30],
+        "無我": [3, 6, 10],
+        "挑戦者": [3, 5, 7, 10, 15],
+        "弱点特攻": [8, 15, 25, 35, 50] // 弱点特攻のレベルごとの値
+    };
+
+    function updateValues() {
+        let total = 0;
+
+        // 見切り
+        const level1 = parseInt(document.getElementById('level1').value);
+        if (level1 > 0) total += skillValues['見切り'][level1 - 1];
+        document.getElementById('value1').value = level1 > 0 ? skillValues['見切り'][level1 - 1] : '';
+
+        // 渾身
+        const level2 = parseInt(document.getElementById('level2').value);
+        if (level2 > 0) total += skillValues['渾身'][level2 - 1];
+        document.getElementById('value2').value = level2 > 0 ? skillValues['渾身'][level2 - 1] : '';
+
+        // 無我
+        const level3 = parseInt(document.getElementById('level3').value);
+        if (level3 > 0) total += skillValues['無我'][level3 - 1];
+        document.getElementById('value3').value = level3 > 0 ? skillValues['無我'][level3 - 1] : '';
+
+        // 挑戦者
+        const level4 = parseInt(document.getElementById('level4').value);
+        if (level4 > 0) total += skillValues['挑戦者'][level4 - 1];
+        document.getElementById('value4').value = level4 > 0 ? skillValues['挑戦者'][level4 - 1] : '';
+
+        // 弱点特攻
+        const level5 = parseInt(document.getElementById('level5').value);
+        if (level5 > 0) total += skillValues['弱点特攻'][level5 - 1];
+        document.getElementById('value5').value = level5 > 0 ? skillValues['弱点特攻'][level5 - 1] : '';
+
+        // 武器会心率の入力を合計に加算
+        const weaponValue = parseInt(document.getElementById('weapon').value) || 0;
+        total += weaponValue;
+
+        // 合計値を表示
+        document.getElementById('total').textContent = total;
+    }
+
+    // 初期値更新
+    updateValues();
+</script>
+
+</body>
+</html>
